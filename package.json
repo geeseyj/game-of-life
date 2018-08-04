@@ -1,0 +1,35 @@
+{
+  "name": "game-of-life",
+  "version": "1.0.0",
+  "description": "One page, client-side Conway's game of life.",
+  "main": "index.html",
+  "scripts": {
+    "build": "node_modules/.bin/webpack",
+    "watch": "npm run build -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geeseyj/game-of-life.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geeseyj/game-of-life/issues"
+  },
+  "homepage": "https://github.com/geeseyj/game-of-life#readme",
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.0.0-beta.56",
+    "awesome-typescript-loader": "^5.2.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.1.0",
+    "source-map-loader": "^0.2.3",
+    "ts-loader": "^4.4.2",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0"
+  }
+}
