@@ -105,12 +105,16 @@ class Board {
         this.cells = values.map((value) => new Cell(value));
         this.cells.map((cell) => this.boardElement.appendChild(cell.element));
     }
+    updateCells() { }
+    randomize() { }
+    clear() { }
 }
 class Cell {
     constructor(value) {
         this.element = document.createElement('div');
         this.element.className = 'cell';
         this.element.dataset.value = value.toString();
+        //assign Click Handler
     }
     read() {
         return this.element.dataset.value.toString() === 'true';
@@ -119,6 +123,7 @@ class Cell {
         this.value = value;
         this.element.dataset.value = value.toString();
     }
+    handleClick() { }
 }
 function ready() {
     let board = new Board(50, 30);

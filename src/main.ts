@@ -11,6 +11,9 @@ class Board {
         this.cells = values.map( (value: boolean) => new Cell(value) );
         this.cells.map( (cell :Cell) => this.boardElement.appendChild( cell.element ) );
     }
+    updateCells(){}
+    randomize(){}
+    clear(){}
 }
 
 class Cell {
@@ -20,6 +23,7 @@ class Cell {
         this.element = document.createElement('div');
         this.element.className = 'cell';
         this.element.dataset.value = value.toString();
+        //assign Click Handler
     }
     read(): boolean{
         return this.element.dataset.value.toString() === 'true';
@@ -28,6 +32,7 @@ class Cell {
         this.value = value;
         this.element.dataset.value = value.toString();
     }
+    handleClick(){}
 }
 
 function ready() {
