@@ -96,12 +96,34 @@ module.exports = __webpack_require__(2);
 /* 1 */
 /***/ (function(module, exports) {
 
-function sayIt(message) {
-    alert(message);
+class Board {
+    constructor(columns, rows) {
+        this.rows = rows;
+        this.columns = columns;
+        this.boardElement = document.getElementById('board');
+        let values = Array(columns * rows).fill(false);
+        this.cells = values.map((value) => new Cell(value));
+        this.cells.map((cell) => this.boardElement.appendChild(cell.element));
+    }
 }
-document.addEventListener("DOMContentLoaded", function () {
-    sayIt(9);
-});
+class Cell {
+    constructor(value) {
+        this.element = document.createElement('div');
+        this.element.className = 'cell';
+        this.element.dataset.value = value.toString();
+    }
+    read() {
+        return this.element.dataset.value.toString() === 'true';
+    }
+    write(value) {
+        this.value = value;
+        this.element.dataset.value = value.toString();
+    }
+}
+function ready() {
+    let board = new Board(50, 30);
+}
+document.addEventListener("DOMContentLoaded", ready);
 
 
 /***/ }),
