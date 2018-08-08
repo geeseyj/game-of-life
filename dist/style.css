@@ -1,0 +1,12 @@
+.board {
+  max-width: 1024px;
+  margin: auto;
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat(50, 1fr); }
+
+.cell {
+  background-color: black;
+  height: 15px; }
+  .cell[data-value=true] {
+    background-color: white; }
