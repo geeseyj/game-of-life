@@ -182,7 +182,6 @@ class Board {
     }
     reset() {
         this.cells.map((cell) => cell.write(false));
-        this.loadPattern.map((index) => this.cells[index].write(true));
         this.count = 0;
     }
 }

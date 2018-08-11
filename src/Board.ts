@@ -71,7 +71,6 @@ export class Board {
     }
     reset(): void {
         this.cells.map( (cell: Cell) => cell.write(false) );
-        this.loadPattern.map( (index: number) => this.cells[index].write( true ));
         this.count = 0;
     }
 }
