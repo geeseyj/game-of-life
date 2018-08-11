@@ -1,17 +1,56 @@
-/* Coolors Exported Palette - coolors.co/424b54-93a8ac-ffffff-e2b4bd-9b6a6c */
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);/* Coolors Exported Palette - coolors.co/424b54-93a8ac-ffffff-e2b4bd-9b6a6c */
+* {
+  font-family: Ubuntu, sans-serif; }
+
 body {
-  background-color: #424b54; }
+  background-color: #424b54;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
 
 .board {
-  max-width: 799px;
+  width: 799px;
   margin: auto;
   display: grid;
   gap: 1px;
   grid-template-columns: repeat(50, 1fr);
-  background-color: #93a8ac; }
+  background-color: rgba(147, 168, 172, 0.55); }
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 30px;
+  gap: 10px;
+  width: 500px; }
+
+.control {
+  padding: 20px;
+  color: #9b6a6c;
+  border-radius: 15px;
+  border: 4px solid #9b6a6c;
+  font-size: 18px;
+  transition: color 200ms, background-color 200ms, border-color 200ms, transform 200ms; }
+  .control:hover {
+    color: #424b54;
+    background-color: #e2b4bd;
+    border-color: #e2b4bd;
+    transform: translate(-5px, -5px); }
 
 .cell {
   height: 15px;
   background-color: #424b54; }
+  .cell:hover {
+    background-color: white; }
   .cell[data-value=true] {
-    background-color: #93a8ac; }
+    background-color: #93a8ac;
+    animation: fall-into-place 100ms linear;
+    transform: translate(-3px, -3px); }
+    .cell[data-value=true]:hover {
+      background-color: #E4572E;
+      transform: translate(-5px, -5px); }
+
+@keyframes fall-into-place {
+  from {
+    transform: translate(-5px, -5px); }
+  to {
+    transform: translate(-3px, -3px); } }

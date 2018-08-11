@@ -3,25 +3,78 @@ $outer-space: rgba(66, 75, 84, 1);
 $cadet-grey: rgba(147, 168, 172, 1);
 $pale-chestnut: rgba(226, 180, 189, 1);
 $copper-rose: rgba(155, 106, 108, 1);
+$flame: #E4572E;
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+* {
+    font-family: Ubuntu, sans-serif;
+}
 
 body {
     background-color: $outer-space;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .board {
-    max-width: 799px;
+    width: 799px;
     margin: auto;
     display: grid;
     gap: 1px;
     grid-template-columns: repeat(50, 1fr);
-    background-color: $cadet-grey;
+    background-color: rgba(147, 168, 172, 0.55);
+}
+
+.controls{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 30px;
+    gap: 10px;
+    width: 500px;
+}
+
+.control {
+    padding: 20px;
+    color: $copper-rose;
+    border-radius: 15px;
+    border: 4px solid $copper-rose;
+    font-size: 18px;
+    transition: color 200ms, background-color 200ms, border-color 200ms, transform 200ms;
+
+    &:hover {
+        color: $outer-space;
+        background-color: $pale-chestnut;
+        border-color: $pale-chestnut;
+        transform: translate( -5px, -5px );
+    }
 }
 
 .cell {
     height: 15px;
     background-color: $outer-space;
 
+    &:hover {
+        background-color: white;
+    }
+
     &[data-value=true]{
         background-color: $cadet-grey;
+        animation: fall-into-place 100ms linear;
+        transform: translate( -3px, -3px );
+        
+        &:hover {
+            background-color: $flame;
+            transform: translate(-5px, -5px);
+        }
+    }
+}
+
+@keyframes fall-into-place {
+    from {
+        transform: translate( -5px, -5px );
+    }
+    to {
+        transform: translate( -3px, -3px );
     }
 }
