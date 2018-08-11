@@ -1,16 +1,27 @@
+/* Coolors Exported Palette - coolors.co/424b54-93a8ac-ffffff-e2b4bd-9b6a6c */
+$outer-space: rgba(66, 75, 84, 1);
+$cadet-grey: rgba(147, 168, 172, 1);
+$pale-chestnut: rgba(226, 180, 189, 1);
+$copper-rose: rgba(155, 106, 108, 1);
+
+body {
+    background-color: $outer-space;
+}
+
 .board {
-    max-width: 1024px;
+    max-width: 799px;
     margin: auto;
-    border: 1px solid black;
     display: grid;
+    gap: 1px;
     grid-template-columns: repeat(50, 1fr);
+    background-color: $cadet-grey;
 }
 
 .cell {
-    background-color: black;
     height: 15px;
+    background-color: $outer-space;
 
-    &[data-value=true] {
-        background-color: white;
+    &[data-value=true]{
+        background-color: $cadet-grey;
     }
 }

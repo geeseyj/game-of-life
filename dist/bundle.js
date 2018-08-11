@@ -101,7 +101,6 @@ class Board {
     constructor(columns, rows) {
         this.rows = rows;
         this.columns = columns;
-        this.paused = false;
         this.cells = Array(columns * rows).fill(false).map((value, index) => new Cell(value, index));
         loadPattern.map((index) => this.cells[index].write(true));
         this.boardElement = document.getElementById('board');
@@ -115,13 +114,13 @@ class Board {
     getCellNeighbors(index) {
         let firstInRow = index % this.columns === 0;
         let lastInRow = index % this.columns === this.columns - 1;
-        let topLeft = firstInRow ? undefined : this.cells[index - this.columns - 1];
         let top = this.cells[index - this.columns]; // will return undefined if out of range
+        let bottom = this.cells[index + this.columns]; // will return undefined if out of range
+        let topLeft = firstInRow ? undefined : this.cells[index - this.columns - 1];
         let topRight = lastInRow ? undefined : this.cells[index - this.columns + 1];
         let left = firstInRow ? undefined : this.cells[index - 1];
         let right = lastInRow ? undefined : this.cells[index + 1];
         let bottomLeft = firstInRow ? undefined : this.cells[index + this.columns - 1];
-        let bottom = this.cells[index + this.columns]; // will return undefined if out of range
         let bottomRight = lastInRow ? undefined : this.cells[index + this.columns + 1];
         let neighbors = [topLeft, top, topRight, left, right, bottomLeft, bottom, bottomRight];
         return neighbors.filter(neighbor => typeof neighbor !== 'undefined');
@@ -129,14 +128,25 @@ class Board {
     assignCellNeighbors() {
         this.cells.map((cell, index) => cell.neighbors = this.getCellNeighbors(index));
     }
-    randomize() { }
-    clear() {
-        clearInterval(this.runningProcessID);
+    randomize() {
+        this.cells.forEach(cell => cell.randomize());
     }
-    pause() { }
-    isPaused() { }
+    stop() {
+        clearInterval(this.runningProcessID);
+        this.runningProcessID = 0;
+        this.isRunning = false;
+    }
+    togglePause() {
+        if (this.isRunning) {
+            this.stop();
+        }
+        else {
+            this.run();
+        }
+    }
     run() {
-        return setInterval(this.updateCells.bind(this), 250);
+        this.runningProcessID = setInterval(function () { this.updateCells(); }.bind(this), 50);
+        this.isRunning = true;
     }
 }
 class Cell {
@@ -178,12 +188,18 @@ class Cell {
             return livingNeighbors === 3;
         }
     }
+    randomize() {
+        this.write(Math.random() < 0.5);
+    }
 }
 var board;
 function ready() {
     board = new Board(50, 30);
-    let id = board.run();
-    setTimeout(function () { clearInterval(id); }, 5000);
+    board.run();
+    document.querySelector('.play-pause').addEventListener('click', function (event) {
+        console.log(this);
+        this.togglePause();
+    }.bind(board));
 }
 document.addEventListener("DOMContentLoaded", ready);
 

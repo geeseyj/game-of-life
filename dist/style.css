@@ -1,12 +1,17 @@
+/* Coolors Exported Palette - coolors.co/424b54-93a8ac-ffffff-e2b4bd-9b6a6c */
+body {
+  background-color: #424b54; }
+
 .board {
-  max-width: 1024px;
+  max-width: 799px;
   margin: auto;
-  border: 1px solid black;
   display: grid;
-  grid-template-columns: repeat(50, 1fr); }
+  gap: 1px;
+  grid-template-columns: repeat(50, 1fr);
+  background-color: #93a8ac; }
 
 .cell {
-  background-color: black;
-  height: 15px; }
+  height: 15px;
+  background-color: #424b54; }
   .cell[data-value=true] {
-    background-color: white; }
+    background-color: #93a8ac; }
