@@ -3,6 +3,8 @@ var loadPattern = [  75, 87, 75, 88, 123, 125, 137, 138, 163, 164, 171, 172, 185
 class Board {
     cells: Array<Cell>;
     columns: number;
+    counter: HTMLElement;
+    count: number;
     rows: number;
     boardElement: HTMLElement;
     isRunning: boolean;
@@ -16,11 +18,18 @@ class Board {
         this.boardElement.dataset.paused = 'false';
         this.cells.map( (cell :Cell) => this.boardElement.appendChild( cell.element ) );
         this.assignCellNeighbors();
+        this.count = 0;
+        this.counter = document.getElementById('counter');
     }
-    updateCells(){
+    updateCells(): void {
         this.cells.map( (cell: Cell) => cell.getNextGeneration() ).forEach((value: boolean, index: number) => this.cells[index].write(value) );
+        this.count += 1;
+        this.updateCounter();
     }
-    getCellNeighbors(index: number){
+    updateCounter(): void {
+        this.counter.innerHTML = this.count.toString();
+    }
+    getCellNeighbors(index: number): Array<Cell> {
         let firstInRow = index % this.columns === 0;
         let lastInRow = index % this.columns === this.columns - 1;
 
@@ -36,27 +45,32 @@ class Board {
         let neighbors = [topLeft, top, topRight, left, right, bottomLeft, bottom, bottomRight];
         return neighbors.filter(neighbor => typeof neighbor !== 'undefined');
     }
-    assignCellNeighbors(){
+    assignCellNeighbors(): void {
         this.cells.map( ( cell: Cell, index: number) => cell.neighbors = this.getCellNeighbors( index ) );
     }
-    randomize(){
+    randomize(): void {
         this.cells.forEach( cell => cell.randomize() );
     }
-    stop(){
+    stop(): void {
         clearInterval( this.runningProcessID );
         this.runningProcessID = 0;
         this.isRunning = false;
     }
-    togglePause(){
+    togglePause(): void {
         if ( this.isRunning ) {
             this.stop();
         } else {
             this.run();
         }
     }
-    run() {
-        this.runningProcessID = setInterval( function(){ this.updateCells() }.bind( this ) , 50 );
+    run(): void {
+        this.runningProcessID = setInterval( () => this.updateCells() , 75 );
         this.isRunning = true;
+    }
+    reset(): void {
+        this.cells.map( (cell: Cell) => cell.write(false) );
+        loadPattern.map( (index: number) => this.cells[index].write( true ));
+        this.count = 0;
     }
 }
 
@@ -71,23 +85,18 @@ class Cell {
         this.element.className = 'cell';
         this.element.dataset.value = value.toString();
         this.board = this.element.parentElement;
-        this.element.addEventListener('click', this.handleClick);
+        this.element.addEventListener('click', () => this.toggle() );
         this.value = value;
     }
     private livingNeighbors(): number {
         return this.neighbors.reduce( ( livingNeighbors: number, cell: Cell ) => livingNeighbors + ( cell.value ? 1 : 0 ), 0);
     }
     read(): boolean {
-        return this.element.dataset.value.toString() === 'true';
+        return this.element.dataset.value === 'true';
     }
     write(value: boolean): void {
         this.value = value;
         this.element.dataset.value = value.toString();
-    }
-    handleClick(event){
-        if ( this.boardIsPaused ) {
-            this.toggle();
-        }
     }
     private boardIsPaused(): boolean {
         return this.board.dataset.paused === 'true';
@@ -103,8 +112,8 @@ class Cell {
             return livingNeighbors === 3;
         }
     }
-    randomize(){
-        this.write( Math.random() < 0.5 );
+    randomize(): void {
+        this.write( Math.random() < 0.25 );
     }
 }
 
@@ -113,10 +122,10 @@ var board;
 function ready() {
     board = new Board(50, 30);
     board.run();
-    document.querySelector('.play-pause').addEventListener('click', function( event ){
-        console.log(this);
-        this.togglePause();
-    }.bind( board ) );
+    document.getElementById('play-pause').addEventListener('click', () => board.togglePause() );
+    document.getElementById('counter-control').addEventListener('click', () => board.togglePause() );
+    document.getElementById('reset').addEventListener('click', () => board.reset() );
+    document.getElementById('randomize').addEventListener('click', () => board.randomize() );
 }
 
 document.addEventListener("DOMContentLoaded", ready);

@@ -107,9 +107,16 @@ class Board {
         this.boardElement.dataset.paused = 'false';
         this.cells.map((cell) => this.boardElement.appendChild(cell.element));
         this.assignCellNeighbors();
+        this.count = 0;
+        this.counter = document.getElementById('counter');
     }
     updateCells() {
         this.cells.map((cell) => cell.getNextGeneration()).forEach((value, index) => this.cells[index].write(value));
+        this.count += 1;
+        this.updateCounter();
+    }
+    updateCounter() {
+        this.counter.innerHTML = this.count.toString();
     }
     getCellNeighbors(index) {
         let firstInRow = index % this.columns === 0;
@@ -145,8 +152,13 @@ class Board {
         }
     }
     run() {
-        this.runningProcessID = setInterval(function () { this.updateCells(); }.bind(this), 50);
+        this.runningProcessID = setInterval(() => this.updateCells(), 75);
         this.isRunning = true;
+    }
+    reset() {
+        this.cells.map((cell) => cell.write(false));
+        loadPattern.map((index) => this.cells[index].write(true));
+        this.count = 0;
     }
 }
 class Cell {
@@ -155,23 +167,18 @@ class Cell {
         this.element.className = 'cell';
         this.element.dataset.value = value.toString();
         this.board = this.element.parentElement;
-        this.element.addEventListener('click', this.handleClick);
+        this.element.addEventListener('click', () => this.toggle());
         this.value = value;
     }
     livingNeighbors() {
         return this.neighbors.reduce((livingNeighbors, cell) => livingNeighbors + (cell.value ? 1 : 0), 0);
     }
     read() {
-        return this.element.dataset.value.toString() === 'true';
+        return this.element.dataset.value === 'true';
     }
     write(value) {
         this.value = value;
         this.element.dataset.value = value.toString();
-    }
-    handleClick(event) {
-        if (this.boardIsPaused) {
-            this.toggle();
-        }
     }
     boardIsPaused() {
         return this.board.dataset.paused === 'true';
@@ -189,17 +196,17 @@ class Cell {
         }
     }
     randomize() {
-        this.write(Math.random() < 0.5);
+        this.write(Math.random() < 0.25);
     }
 }
 var board;
 function ready() {
     board = new Board(50, 30);
     board.run();
-    document.querySelector('.play-pause').addEventListener('click', function (event) {
-        console.log(this);
-        this.togglePause();
-    }.bind(board));
+    document.getElementById('play-pause').addEventListener('click', () => board.togglePause());
+    document.getElementById('counter-control').addEventListener('click', () => board.togglePause());
+    document.getElementById('reset').addEventListener('click', () => board.reset());
+    document.getElementById('randomize').addEventListener('click', () => board.randomize());
 }
 document.addEventListener("DOMContentLoaded", ready);
 
