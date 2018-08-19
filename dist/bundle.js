@@ -101,9 +101,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
 function ready() {
-    var board;
-    board = new _Board__WEBPACK_IMPORTED_MODULE_0__["Board"](50, 30);
-    board.run();
+    var board = new _Board__WEBPACK_IMPORTED_MODULE_0__["Board"](50, 30);
     document.getElementById('play-pause').addEventListener('click', () => board.togglePause());
     document.getElementById('counter-control').addEventListener('click', () => board.togglePause());
     document.getElementById('reset').addEventListener('click', () => board.reset());
@@ -129,18 +127,24 @@ class Board {
         this.loadPattern = [75, 87, 75, 88, 123, 125, 137, 138, 163, 164, 171, 172, 185, 186, 212, 216, 221, 222, 235, 236, 251, 252, 261, 267, 271, 272, 301, 302, 311, 315, 317, 318, 323, 325, 361, 367, 375, 412, 416, 442, 443, 444, 463, 464, 492, 494, 542, 543, 544, 592, 593, 594, 642, 643, 644, 692, 693, 694, 742, 744, 758, 759, 760, 764, 765, 766, 792, 793, 794, 856, 861, 863, 868, 906, 911, 913, 918, 956, 961, 963, 968, 1008, 1009, 1010, 1014, 1015, 1016, 1023, 1024, 1073, 1074, 1108, 1109, 1110, 1114, 1115, 1116, 1125, 1126, 1156, 1161, 1163, 1168, 1175, 1176, 1206, 1211, 1213, 1218, 1256, 1261, 1263, 1268, 1295, 1296, 1297, 1358, 1359, 1360, 1364, 1365, 1366, 1437, 1438, 1439];
         this.loadPattern.map((index) => this.cells[index].write(true));
         this.boardElement = document.getElementById('board');
-        this.boardElement.dataset.paused = 'false';
         this.cells.map((cell) => this.boardElement.appendChild(cell.element));
         this.assignCellNeighbors();
-        this.count = 0;
         this.counter = document.getElementById('counter');
+        this.count = 0;
+        this.run();
     }
     updateCells() {
         this.cells.map((cell) => cell.getNextGeneration()).forEach((value, index) => this.cells[index].write(value));
-        this.count += 1;
         this.updateCounter();
     }
-    updateCounter() {
+    updateCounter(action = 'increment') {
+        if (action === 'increment') {
+            this.count += 1;
+        }
+        else {
+            this.count = 0;
+        }
+        console.log(this.count);
         this.counter.innerHTML = this.count.toString();
     }
     getCellNeighbors(index) {
@@ -162,6 +166,7 @@ class Board {
     }
     randomize() {
         this.cells.forEach(cell => cell.randomize());
+        this.updateCounter('reset');
     }
     stop() {
         clearInterval(this.runningProcessID);
@@ -182,7 +187,7 @@ class Board {
     }
     reset() {
         this.cells.map((cell) => cell.write(false));
-        this.count = 0;
+        this.updateCounter('reset');
     }
 }
 
