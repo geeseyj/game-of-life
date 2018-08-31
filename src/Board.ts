@@ -9,6 +9,7 @@ export class Board {
   private counter: HTMLElement;
   private isRunning: boolean;
   private runningProcessID: number;
+  private playPauseButton: HTMLElement;
   constructor(columns: number, rows: number) {
     this.columns = columns;
     this.cells = Array(rows * columns).fill(null).map(() => new Cell(false));
@@ -18,6 +19,7 @@ export class Board {
     this.assignCellNeighbors();
     this.counter = document.getElementById('counter');
     this.count = 0;
+    this.playPauseButton = document.getElementById('play-pause');
     this.run();
   }
   private updateCells(): void {
@@ -60,6 +62,7 @@ export class Board {
     clearInterval(this.runningProcessID);
     this.runningProcessID = 0;
     this.isRunning = false;
+    this.playPauseButton.innerText = 'Play';
   }
   togglePause(): void {
     if (this.isRunning) {
@@ -71,6 +74,7 @@ export class Board {
   run(): void {
     this.runningProcessID = setInterval(() => this.updateCells() , 75);
     this.isRunning = true;
+    this.playPauseButton.innerText = 'Pause';
   }
   reset(): void {
     this.cells.map((cell: Cell) => cell.write(false));

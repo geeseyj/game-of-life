@@ -158,6 +158,7 @@ function () {
     this.assignCellNeighbors();
     this.counter = document.getElementById('counter');
     this.count = 0;
+    this.playPauseButton = document.getElementById('play-pause');
     this.run();
   }
 
@@ -229,6 +230,7 @@ function () {
       clearInterval(this.runningProcessID);
       this.runningProcessID = 0;
       this.isRunning = false;
+      this.playPauseButton.innerText = 'Play';
     }
   }, {
     key: "togglePause",
@@ -248,6 +250,7 @@ function () {
         return _this4.updateCells();
       }, 75);
       this.isRunning = true;
+      this.playPauseButton.innerText = 'Pause';
     }
   }, {
     key: "reset",
