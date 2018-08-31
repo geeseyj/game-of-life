@@ -22,13 +22,14 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader',
+                exclude: /node_modules/,
+                use: [ 'babel-loader', 'awesome-typescript-loader' ],
             },
             {
                 test: /\.js$/,
                 use: ["source-map-loader"],
                 enforce: "pre",
-            }
+            },
         ],
     },
     plugins: [
