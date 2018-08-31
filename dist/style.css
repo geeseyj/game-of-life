@@ -38,6 +38,9 @@ body {
     color: #424b54;
     background-color: #e2b4bd;
     border-color: #e2b4bd; }
+  .control.inactive {
+    pointer-events: none;
+    opacity: 0.5; }
 
 .cell {
   height: 15px;

@@ -7,6 +7,7 @@ function ready(): void {
   document.getElementById('counter-control').addEventListener('click', () => board.togglePause());
   document.getElementById('reset').addEventListener('click', () => board.reset());
   document.getElementById('randomize').addEventListener('click', () => board.randomize());
+  document.getElementById('step').addEventListener('click', () => board.updateCells());
 }
 
 document.addEventListener('DOMContentLoaded', ready);

@@ -115,6 +115,9 @@ function ready() {
   document.getElementById('randomize').addEventListener('click', function () {
     return board.randomize();
   });
+  document.getElementById('step').addEventListener('click', function () {
+    return board.updateCells();
+  });
 }
 
 document.addEventListener('DOMContentLoaded', ready);
@@ -159,6 +162,7 @@ function () {
     this.counter = document.getElementById('counter');
     this.count = 0;
     this.playPauseButton = document.getElementById('play-pause');
+    this.stepButton = document.getElementById('step');
     this.run();
   }
 
@@ -231,6 +235,7 @@ function () {
       this.runningProcessID = 0;
       this.isRunning = false;
       this.playPauseButton.innerText = 'Play';
+      this.stepButton.classList.remove('inactive');
     }
   }, {
     key: "togglePause",
@@ -251,6 +256,7 @@ function () {
       }, 75);
       this.isRunning = true;
       this.playPauseButton.innerText = 'Pause';
+      this.stepButton.classList.add('inactive');
     }
   }, {
     key: "reset",

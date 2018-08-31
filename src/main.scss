@@ -51,6 +51,11 @@ body {
         background-color: $pale-chestnut;
         border-color: $pale-chestnut;
     }
+
+    &.inactive {
+        pointer-events: none;
+        opacity: 0.5;
+    }
 }
 
 .cell {
